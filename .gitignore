@@ -1,0 +1,8 @@
+﻿build
+core/glfw/**
+core/imgui/**
+core/bullet3/**
+core/glm/**
+core/json/**
+core/openal-soft/**
+server/enet/**

@@ -1,0 +1,24 @@
+[submodule "core/glfw"]
+	path = core/glfw
+	url = https://github.com/glfw/glfw
+[submodule "core/imgui"]
+	path = core/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "core/glm"]
+	path = core/glm
+	url = https://github.com/g-truc/glm.git
+[submodule "core/json"]
+	path = core/json
+	url = https://github.com/nlohmann/json.git
+[submodule "server/enet"]
+	path = server/enet
+	url = https://github.com/lsalzman/enet.git
+[submodule "core/stb-cmake"]
+	path = core/stb-cmake
+	url = https://github.com/jschmidt42/stb-cmake.git
+[submodule "core/openal-soft"]
+	path = core/openal-soft
+	url = https://github.com/kcat/openal-soft.git
+[submodule "core/entt"]
+	path = core/entt
+	url = https://github.com/skypjack/entt.git
