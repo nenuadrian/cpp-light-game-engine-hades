@@ -1,5 +1,6 @@
 #include "manager.h"
 #include <stdexcept>
+#include "physics.h"
 
 ThingManager::ThingManager(AssetManager* assetManager) {
     this->assetManager = assetManager;
@@ -31,7 +32,8 @@ entt::entity ThingManager::Add(Thing* t) {
 
     const auto entity = registry.create();
     registry.emplace<Thing*>(entity, t);
-
+    registry.emplace<RigidBody>(entity, false);
+    
     return entity;
 }
 
