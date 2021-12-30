@@ -1,5 +1,8 @@
-#include "hades.h"
+#define STB_IMAGE_IMPLEMENTATION
 #define GLEW_STATIC
+#define GL_CLAMP_TO_EDGE 0x812F
+
+#include "hades.h"
 
 #include "editor.h"
 #include "scene.h"
@@ -7,8 +10,6 @@
 Hades::Hades() {
     RegisterPlugin(new Editor());
 }
-
-#define GL_CLAMP_TO_EDGE 0x812F
 
 
 void Hades::Run() {

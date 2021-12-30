@@ -6,7 +6,6 @@
 #include <filesystem>
 
 AssetManager::AssetManager() {
-    struct stat info;
     if (!std::filesystem::exists("assets")) {
         std::filesystem::create_directory("assets");
         std::filesystem::create_directory("assets/sounds");

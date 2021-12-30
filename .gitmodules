@@ -25,3 +25,6 @@
 [submodule "core/entt"]
 	path = core/entt
 	url = https://github.com/skypjack/entt.git
+[submodule "core/bullet3"]
+	path = core/bullet3
+	url = https://github.com/bulletphysics/bullet3.git

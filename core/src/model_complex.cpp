@@ -1,11 +1,12 @@
 #include "model_complex.h"
 #include <stdexcept>
 #define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#define STB_IMAGE_STATIC
+
 #include <assimp/Importer.hpp>      // C++ importer interface
 #include <assimp/postprocess.h>     // Post processing flags
 #include <assimp/cimport.h>
-
+#include "stb_image.h"
 
 Mesh ModelComplex::processMesh(aiMesh* mesh, const aiScene* scene)
 {

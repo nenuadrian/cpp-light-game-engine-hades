@@ -16,7 +16,7 @@ OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build the OpenGL3+ demos" 	OFF)
 include_directories( "glfw/include" 
  "glad/include"
 "imgui"
-"imgui/examples"
+"imgui/backends"
 "glew/include" 
 
  "openal-soft" 
@@ -71,14 +71,15 @@ set( HADES-CORE-SRC
      imgui/imgui.h
      imgui/imgui.cpp
      imgui/imgui_internal.h
-     imgui/imgui_demo.cpp
+   imgui/imgui_tables.cpp
      imgui/imgui_draw.cpp
      imgui/imgui_widgets.cpp
      imgui/imconfig.h
-     imgui/examples/imgui_impl_glfw.h
-     imgui/examples/imgui_impl_glfw.cpp
-     imgui/examples/imgui_impl_opengl2.h
-     imgui/examples/imgui_impl_opengl2.cpp
+     imgui/backends/imgui_impl_glfw.h
+     imgui/backends/imgui_impl_glfw.cpp
+     imgui/backends/imgui_impl_opengl2.h
+     imgui/backends/imgui_impl_opengl2.cpp
+
 	src/editor.h
 	src/editor.cpp
 glad/src/glad.c
@@ -132,4 +133,4 @@ add_executable( HADES-CORE ${HADES-CORE-SRC}   )
 
 target_compile_features(HADES-CORE PRIVATE cxx_std_17)
 
-target_link_libraries( HADES-CORE ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} nlohmann_json::nlohmann_json glew_s ${GLEW_LIBRARIES} OpenAL assimp glm)
+target_link_libraries( HADES-CORE ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} glew_s nlohmann_json::nlohmann_json ${GLEW_LIBRARIES} OpenAL assimp glm)

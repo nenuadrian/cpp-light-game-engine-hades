@@ -5,7 +5,7 @@
 #include <string>
 #include "shader.h"
 #include "model.h"
-#include <assimp/scene.h>           // Output data structure
+#include <assimp/scene.h>// Output data structure
 
 
 
