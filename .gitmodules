@@ -19,3 +19,9 @@
 [submodule "core/openal-soft"]
 	path = core/openal-soft
 	url = https://github.com/kcat/openal-soft.git
+[submodule "core/assimp"]
+	path = core/assimp
+	url = https://github.com/assimp/assimp.git
+[submodule "core/entt"]
+	path = core/entt
+	url = https://github.com/skypjack/entt.git
