@@ -15,6 +15,7 @@ OPTION(BUILD_UNIT_TESTS "Build Unit Tests"	OFF)
 OPTION(BUILD_OPENGL3_DEMOS "Set when you want to build the OpenGL3+ demos" 	OFF)
 include_directories( "glfw/include" 
  "glad/include"
+"bullet3"
 "imgui"
 "imgui/backends"
 "glew/include" 
@@ -45,7 +46,7 @@ add_subdirectory( glfw )
 add_subdirectory( openal-soft )
 add_subdirectory( glm )
 add_subdirectory( assimp )
-
+add_subdirectory( bullet3 )
 add_subdirectory( glew/build/cmake )
 add_subdirectory( entt)
 
@@ -123,14 +124,15 @@ INCLUDE_DIRECTORIES(
 ./assimp/code
 ./entt/src
 ./glfw/src
+./bullet3/src
 )
 
 
 LINK_LIBRARIES(
-  glm nlohmann_json::nlohmann_json freetype glew_s ${GLEW_LIBRARIES}  OpenAL assimp
+  glm nlohmann_json::nlohmann_json freetype glew_s ${GLEW_LIBRARIES}  OpenAL assimp BulletCollision BulletDynamics LinearMath Bullet3Common
 )
 add_executable( HADES-CORE ${HADES-CORE-SRC}   )
 
 target_compile_features(HADES-CORE PRIVATE cxx_std_17)
 
-target_link_libraries( HADES-CORE ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} glew_s nlohmann_json::nlohmann_json ${GLEW_LIBRARIES} OpenAL assimp glm)
+target_link_libraries( HADES-CORE ${OPENGL_LIBRARIES} glfw ${GLFW_LIBRARIES} glew_s nlohmann_json::nlohmann_json ${GLEW_LIBRARIES} OpenAL assimp glm BulletCollision BulletDynamics LinearMath Bullet3Common)
