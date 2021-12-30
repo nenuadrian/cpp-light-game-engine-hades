@@ -5,14 +5,19 @@
 #include "hades.h"
 
 #include "editor.h"
+#include "physics.h"
 #include "scene.h"
+#include "events.h"
 
 Hades::Hades() {
-    RegisterPlugin(new Editor());
 }
 
+void Hades::InitiatePlay() {
+
+}
 
 void Hades::Run() {
+
     if (!glfwInit())
         exit(1);
 
@@ -23,18 +28,31 @@ void Hades::Run() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    Scene* scene = new Scene(window);
-    scene->Init(plugins);
-    while (!glfwWindowShouldClose(window))
-    {
-        glfwPollEvents();
-        scene->Render();
-        glfwSwapBuffers(window);
+    EventManager* eventManager = new EventManager();
+
+    while (!glfwWindowShouldClose(window)) {
+        RegisterPlugin(new Editor());
+        RegisterPlugin(new Physics());
+
+        Scene* scene = new Scene(window);
+        scene->Init(plugins, eventManager);
+
+        while (!glfwWindowShouldClose(window) && !eventManager->breakRender)
+        {
+            glfwPollEvents();
+            scene->Render();
+            glfwSwapBuffers(window);
+        }
+        eventManager->breakRender = false;
+
+        delete scene;
+
+        for (Plugin* plugin : plugins) {
+            delete plugin;
+        }
+        plugins.clear();
     }
-   
-    for (Plugin* plugin : plugins) {
-        delete plugin;
-    }
+    
 
     glfwTerminate();
 }

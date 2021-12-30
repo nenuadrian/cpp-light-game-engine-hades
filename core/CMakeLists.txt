@@ -94,6 +94,10 @@ src/manager.h
 src/manager.cpp
 src/thing.h
 src/thing.cpp
+src/physics.h
+src/physics.cpp
+src/events.h
+src/events.cpp
 src/asset-manager.h
 src/asset-manager.cpp
 src/plugin.h

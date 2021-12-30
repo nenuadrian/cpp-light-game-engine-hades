@@ -51,6 +51,11 @@ void Editor::Save() {
     myfile.close();
 }
 
+void Editor::Play() {
+    eventManager->play = true;
+    eventManager->breakRender = true;
+}
+
 void Editor::Load() {
     std::ifstream ifs("example.json");
     std::string content((std::istreambuf_iterator<char>(ifs)),
@@ -129,10 +134,18 @@ void Editor::RenderProperties() {
     }
 }
 
+void Editor::RenderPlayingEditor() {
+    ImGui::Begin("Options");
+    {
+        if (ImGui::Button("Quit")) {
+            eventManager->play = false;
+            eventManager->breakRender = true;
+        }
+    }
+    ImGui::End();
+}
 
 void Editor::RenderEditorGUI() {
-    ImVec4 clear_color = ImColor(114, 144, 154);
-
     ImVec2 sizeAppWindow = ImGui::GetIO().DisplaySize;
     ImGui::SetNextWindowPos(ImVec2(20, 20), ImGuiCond_Appearing);
     ImGui::SetNextWindowSize(ImVec2(200, 0), ImGuiCond_Always);
@@ -141,8 +154,8 @@ void Editor::RenderEditorGUI() {
 
     ImGui::Begin("Options");
     {
-        if (ImGui::Button("New Entity", ImVec2(120, 20))) {
-            selectedThing = manager->registry.get<Thing*>(manager->CreateThing())->uuid;
+        if (ImGui::Button("Play")) {
+            Play();
         }
    
         if (ImGui::Button("Load Project")) {
@@ -157,6 +170,9 @@ void Editor::RenderEditorGUI() {
 
     ImGui::Begin("Things");
     {
+        if (ImGui::Button("New Thing", ImVec2(120, 20))) {
+            selectedThing = manager->registry.get<Thing*>(manager->CreateThing())->uuid;
+        }
 
         auto view = manager->registry.view<Thing*>();
         for (auto [entity, thing] : view.each()) {
@@ -191,7 +207,11 @@ void Editor::Render() {
     ImGui_ImplOpenGL2_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
-    RenderEditorGUI();
+    if (!eventManager->play) {
+        RenderEditorGUI();
+    } else {
+        RenderPlayingEditor();
+    }
     ImGui::Render();
     ImGui_ImplOpenGL2_RenderDrawData(ImGui::GetDrawData());
 }

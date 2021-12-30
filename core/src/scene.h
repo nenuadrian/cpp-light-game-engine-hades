@@ -1,5 +1,6 @@
 #include <vector>
 #include "plugin.h"
+#include "events.h"
 #include <GLFW/glfw3.h>
 
 class Scene {
@@ -9,6 +10,11 @@ public:
     AssetManager* assetManager;
     ThingManager* manager;
     SoundManager* soundManager;
+    ~Scene() {
+        delete assetManager;
+        delete manager;
+        delete soundManager;
+    }
 
     Scene(GLFWwindow* window) {
         this->window = window;
@@ -57,7 +63,7 @@ public:
     void keyCallBack(GLFWwindow* w, int key, int scancode, int action, int mods);
     void charCallback(GLFWwindow* w, unsigned int c);
     void mouseButtonCallback(GLFWwindow* w, int button, int action, int modsy);
-    void Init(std::vector<Plugin*> plugins);
+    void Init(std::vector<Plugin*> plugins, EventManager* eventManager);
     void Render();
 
 };

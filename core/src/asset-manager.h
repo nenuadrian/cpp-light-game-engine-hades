@@ -11,7 +11,6 @@
 
 class AssetManager {
     int uuid = 0;
-    ~AssetManager();
 public:
     std::vector<Model*> models = { };
 
@@ -19,5 +18,5 @@ public:
     void InitCache();
     void Load(nlohmann::json models);
     int AddModel(Model* model);
-
+    ~AssetManager();
 };

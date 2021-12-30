@@ -1,3 +1,5 @@
+#pragma once
+
 #include <vector>
 #include "plugin.h"
 
@@ -10,5 +12,6 @@ public:
 
     void Run();
     void RegisterPlugin(Plugin* plugin);
+    void InitiatePlay();
 };
 

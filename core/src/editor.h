@@ -5,11 +5,13 @@
 #include <imgui.h>
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl2.h"
+#include "events.h"
 
 class Editor : public Plugin {
     int selectedThing = -1;
 public:
     Editor() : Plugin("Editor") {}
+
     void virtual Render();
     virtual ~Editor() {
         ImGui_ImplOpenGL2_Shutdown();
@@ -17,11 +19,12 @@ public:
         ImGui::DestroyContext();
     }
    
-    void virtual Init(GLFWwindow* window, AssetManager* _assetManager, ThingManager* _manager, SoundManager* _soundManager) {
-        this->manager = _manager;
-        this->soundManager = _soundManager;
-        this->assetManager = _assetManager;
-
+    void virtual Init(GLFWwindow* window, EventManager* _eventManager, AssetManager* _assetManager, ThingManager* _manager, SoundManager* _soundManager) {
+        manager = _manager;
+        soundManager = _soundManager;
+        assetManager = _assetManager;
+        eventManager = _eventManager;
+        
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
         ImGui_ImplGlfw_InitForOpenGL(window, false);
@@ -48,7 +51,9 @@ public:
 private:
     void Save();
     void Load();
+    void Play();
     void RenderProperties();
-    void Editor::RenderEditorGUI();
+    void RenderEditorGUI();
+    void RenderPlayingEditor();
 };
 

@@ -3,6 +3,7 @@
 #include "manager.h"
 #include "asset-manager.h"
 #include "sound.h"
+#include "events.h"
 #include <GLFW/glfw3.h>
 
 class Plugin {
@@ -11,6 +12,7 @@ protected:
     ThingManager* manager;
     SoundManager* soundManager;
     AssetManager* assetManager;
+    EventManager* eventManager;
 
 public:
     Plugin(std::string name) {
@@ -18,10 +20,11 @@ public:
     }
 
     virtual ~Plugin() {}
-    void virtual Init(GLFWwindow* window, AssetManager* _assetManager, ThingManager* _manager, SoundManager* _soundManager) {
-        this->manager = _manager;
-        this->soundManager = _soundManager;
-        this->assetManager = _assetManager;
+    void virtual Init(GLFWwindow* window, EventManager* _eventManager, AssetManager* _assetManager, ThingManager* _manager, SoundManager* _soundManager) {
+        manager = _manager;
+        soundManager = _soundManager;
+        assetManager = _assetManager;
+        eventManager = _eventManager;
     }
 
     void virtual scrollCallback(GLFWwindow* w, double x, double y) {}

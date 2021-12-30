@@ -43,12 +43,12 @@ void Scene::mousePosCallback(GLFWwindow* w, double x, double y) {
     }
 }
 
-void Scene::Init(std::vector<Plugin*> plugins) {
+void Scene::Init(std::vector<Plugin*> plugins, EventManager* eventManager) {
     this->plugins = plugins;
     
     assetManager->InitCache();
     for (Plugin* plugin : plugins) {
-        plugin->Init(window, assetManager, manager, soundManager);
+        plugin->Init(window, eventManager, assetManager, manager, soundManager);
     }
 
     glm::mat4 Projection = glm::perspective(glm::radians(45.0f), (float)1280 / (float)720, 0.1f, 100.0f);
