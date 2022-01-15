@@ -1,10 +1,10 @@
 #include "manager.h"
 #include <stdexcept>
 #include "physics.h"
-#include "scripts.h"
 
-ThingManager::ThingManager(AssetManager* assetManager) {
+ThingManager::ThingManager(AssetManager* assetManager, Scripts* scripts) {
     this->assetManager = assetManager;
+    this->scripts = scripts;
 }
 
 entt::entity ThingManager::CreateThing(nlohmann::json json) {
@@ -13,6 +13,9 @@ entt::entity ThingManager::CreateThing(nlohmann::json json) {
     t->x = json["x"];
     t->y = json["y"];
     t->z = json["z"];
+    if (json.contains("script")) {
+        t->script = json["script"];
+    }
     return this->Add(t);
 }
 
@@ -34,6 +37,12 @@ entt::entity ThingManager::Add(Thing* t) {
     const auto entity = registry.create();
     registry.emplace<Thing*>(entity, t);
     registry.emplace<RigidBody>(entity, false);
+    for (Script* s : scripts) {
+        if (s->id == t->script) {
+            registry.emplace<Script*>(entity, s);
+            break;
+        }
+    }
     
     return entity;
 }

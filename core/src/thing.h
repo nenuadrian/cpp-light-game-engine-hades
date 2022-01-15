@@ -13,6 +13,7 @@ public:
     float x = 0;
     float y = 0;
     float z = 0;
+    std::string script;
     Shader* shader;
     Model* model;
 

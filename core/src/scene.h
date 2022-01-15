@@ -1,6 +1,7 @@
 #include <vector>
 #include "plugin.h"
 #include "events.h"
+#include "scripts.h"
 #include <GLFW/glfw3.h>
 
 class Scene {
@@ -16,10 +17,10 @@ public:
         delete soundManager;
     }
 
-    Scene(GLFWwindow* window) {
+    Scene(GLFWwindow* window, Scripts* scripts) {
         this->window = window;
         assetManager = new AssetManager();
-        manager = new ThingManager(assetManager);
+        manager = new ThingManager(assetManager, scripts);
         soundManager = new SoundManager();
 
         glfwSetWindowUserPointer(window, this);

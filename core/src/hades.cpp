@@ -10,6 +10,7 @@
 #include "events.h"
 
 Hades::Hades() {
+    scripts = new Scripts();
 }
 
 void Hades::InitiatePlay() {
@@ -34,11 +35,10 @@ void Hades::Run() {
         RegisterPlugin(new Editor());
         RegisterPlugin(new Physics());
 
-        Scene* scene = new Scene(window);
+        Scene* scene = new Scene(window, scripts);
         scene->Init(plugins, eventManager);
 
-        while (!glfwWindowShouldClose(window) && !eventManager->breakRender)
-        {
+        while (!glfwWindowShouldClose(window) && !eventManager->breakRender) {
             glfwPollEvents();
             scene->Render();
             glfwSwapBuffers(window);

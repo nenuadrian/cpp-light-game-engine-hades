@@ -7,7 +7,14 @@
 
 class Script {
 public:
+    std::string id;
+
+    Script(std::string _id) {
+        id = _id;
+    };
+
     virtual void Run(entt::entity thing) {}
+    virtual ~Script() {}
 };
 
 class Scripts {

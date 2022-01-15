@@ -10,6 +10,7 @@
 #include "imgui_impl_opengl2.h"
 #include "model_complex.h"
 #include <entt/entt.hpp>
+#include "scripts.h"
 
 
 void Editor::Save() {
@@ -31,16 +32,19 @@ void Editor::Save() {
     std::vector<nlohmann::json> entitiesVector = { };
 
     auto view = manager->registry.view<Thing*>();
-    for (auto [entity, thing] : view.each()) {
+    for (auto [e, thing] : view.each()) {
         nlohmann::json entity = nlohmann::json::object();
         entity["uuid"] = thing->uuid;
         entity["x"] = thing->x;
         entity["y"] = thing->y;
         entity["z"] = thing->z;
         entity["model"] = thing->model->uuid;
+        if (manager->registry.any_of<Script*>(e)) {
+            auto script = manager->registry.get<Script*>(entity);
+            entity["script"] = script->id;
+        }
         entitiesVector.push_back(entity);
     }
-
 
     data["entities"] = entitiesVector;
 

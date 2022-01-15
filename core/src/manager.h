@@ -6,15 +6,17 @@
 #include "nlohmann/json.hpp"
 #include <entt/entt.hpp>
 #include <glm.hpp>
+#include "scripts.h"
 
 class ThingManager {
     int uuid = 0;
     AssetManager* assetManager;
+    Scripts* scripts;
 
 public:
     entt::registry registry;
 
-    ThingManager(AssetManager* assetManager);
+    ThingManager(AssetManager* assetManager, Scripts* scripts);
 
     entt::entity Add(Thing* t);
     entt::entity CreateThing();
