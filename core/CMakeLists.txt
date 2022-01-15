@@ -135,7 +135,7 @@ INCLUDE_DIRECTORIES(
 LINK_LIBRARIES(
   glm nlohmann_json::nlohmann_json freetype glew_s ${GLEW_LIBRARIES}  OpenAL assimp BulletCollision BulletDynamics LinearMath Bullet3Common
 )
-add_executable( HADES-CORE ${HADES-CORE-SRC}   )
+add_library( HADES-CORE STATIC ${HADES-CORE-SRC} )
 
 target_compile_features(HADES-CORE PRIVATE cxx_std_17)
 

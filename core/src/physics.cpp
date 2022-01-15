@@ -46,9 +46,9 @@ void Physics::Setup() {
 		dynamicsWorld->setGravity(btVector3(0, -10, 0));
 
 
-		auto view = manager->registry.view<RigidBody>();
+		auto view = manager->registry.view<RigidBody, Thing*>();
 		btCollisionShape* groundShape;
-		for (auto [entity, body] : view.each()) {
+		for (auto [entity, body, things] : view.each()) {
 			groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
 
 			collisionShapes.push_back(groundShape);
