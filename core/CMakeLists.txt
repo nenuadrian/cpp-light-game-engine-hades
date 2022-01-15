@@ -112,6 +112,8 @@ src/model_complex.h
 src/model_complex.cpp
 src/scene.h
 src/scene.cpp
+src/scripts.h
+src/scripts.cpp
 src/hades.h
 src/hades.cpp
 src/main.cpp

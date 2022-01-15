@@ -1,6 +1,7 @@
 #include "manager.h"
 #include <stdexcept>
 #include "physics.h"
+#include "scripts.h"
 
 ThingManager::ThingManager(AssetManager* assetManager) {
     this->assetManager = assetManager;
@@ -40,6 +41,10 @@ entt::entity ThingManager::Add(Thing* t) {
 void ThingManager::Render(glm::mat4 view) {
     auto registryView = registry.view<Thing*>();
     for (auto [entity, thing] : registryView.each()) {
+        if (registry.any_of<Script*>(entity)) {
+            auto script = registry.get<Script*>(entity);
+            script->Run(entity);
+        }
         thing->Render(view);
     }
 }
