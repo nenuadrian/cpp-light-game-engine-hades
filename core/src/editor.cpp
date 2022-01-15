@@ -210,6 +210,8 @@ void Editor::Render() {
     if (!eventManager->play) {
         RenderEditorGUI();
     } else {
+        RenderEditorGUI();
+
         RenderPlayingEditor();
     }
     ImGui::Render();

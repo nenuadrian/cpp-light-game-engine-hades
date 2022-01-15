@@ -9,7 +9,8 @@
 #include "btBulletDynamicsCommon.h"
 
 struct RigidBody {
-    bool test;
+    bool test = false;
+    btCollisionObject* btCollisionObject = nullptr;
 };
 
 class Physics : public Plugin {
@@ -21,6 +22,7 @@ class Physics : public Plugin {
     btDefaultCollisionConfiguration* collisionConfiguration;
     bool initialized = false;
 
+    void SetupEntities();
 public:
     Physics() : Plugin("Physics") {
     }

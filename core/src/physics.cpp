@@ -2,13 +2,14 @@
 
 
 void Physics::Render() {
-	if (eventManager->play) {
-		dynamicsWorld->stepSimulation(1.f / 60.f, 10);
+	if (eventManager->play && !eventManager->breakRender) {
+		Physics::SetupEntities();
 
-		//print positions of all objects
-		for (int j = dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--)
-		{
-			btCollisionObject* obj = dynamicsWorld->getCollisionObjectArray()[j];
+		dynamicsWorld->stepSimulation(1.f / 60.f, 10);
+		
+		auto view = manager->registry.view<RigidBody, Thing*>();
+		for (auto [entity, body, thing] : view.each()) {
+			btCollisionObject* obj = body.btCollisionObject;
 			btRigidBody* body = btRigidBody::upcast(obj);
 			btTransform trans;
 			if (body && body->getMotionState())
@@ -19,7 +20,10 @@ void Physics::Render() {
 			{
 				trans = obj->getWorldTransform();
 			}
-			printf("world pos object %d = %f,%f,%f\n", j, float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
+			printf("world pos object %f,%f,%f\n", float(trans.getOrigin().getX()), float(trans.getOrigin().getY()), float(trans.getOrigin().getZ()));
+			thing->x += trans.getOrigin().getX();
+			thing->y += trans.getOrigin().getY();
+			thing->z += trans.getOrigin().getZ();
 		}
 	}
 }
@@ -44,35 +48,35 @@ void Physics::Setup() {
 		dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, overlappingPairCache, solver, collisionConfiguration);
 
 		dynamicsWorld->setGravity(btVector3(0, -10, 0));
+	}
+}
 
+void Physics::SetupEntities() {
+	btCollisionShape* groundShape;
+	groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+	collisionShapes.push_back(groundShape);
+	btTransform groundTransform;
+	groundTransform.setIdentity();
+	groundTransform.setOrigin(btVector3(0, -56, 0));
 
-		auto view = manager->registry.view<RigidBody, Thing*>();
-		btCollisionShape* groundShape;
-		for (auto [entity, body, things] : view.each()) {
-			groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+	btScalar mass(0.);
 
-			collisionShapes.push_back(groundShape);
+	//rigidbody is dynamic if and only if mass is non zero, otherwise static
+	bool isDynamic = (mass != 0.f);
 
-			btTransform groundTransform;
-			groundTransform.setIdentity();
-			groundTransform.setOrigin(btVector3(0, -56, 0));
+	btVector3 localInertia(0, 0, 0);
+	if (isDynamic)
+		groundShape->calculateLocalInertia(mass, localInertia);
 
-			btScalar mass(0.);
-
-			//rigidbody is dynamic if and only if mass is non zero, otherwise static
-			bool isDynamic = (mass != 0.f);
-
-			btVector3 localInertia(0, 0, 0);
-			if (isDynamic)
-				groundShape->calculateLocalInertia(mass, localInertia);
-
+	auto view = manager->registry.view<RigidBody, Thing*>();
+	for (auto [entity, body, things] : view.each()) {
+		if (body.btCollisionObject == nullptr) {
 			//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 			btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 			btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
-			btRigidBody* body = new btRigidBody(rbInfo);
-
-			//add the body to the dynamics world
-			dynamicsWorld->addRigidBody(body);
+			btRigidBody* bodyR = new btRigidBody(rbInfo);
+			body.btCollisionObject = bodyR;
+			dynamicsWorld->addRigidBody(bodyR);
 		}
 	}
 }
